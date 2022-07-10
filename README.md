@@ -25,3 +25,9 @@ alias vi="nvim"
 ```
 git clone git@github.com:step0035/neovim_config.git ~/.config/nvim
 ```
+
+### Nerd Fonts
+
+Go to https://github.com/ryanoasis/nerd-fonts to get fonts
+
+Download the fonts and put it into `.local/share/fonts`

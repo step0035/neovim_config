@@ -25,8 +25,8 @@ keymap("n", "<C-j>", "<C-w>j", opts)
 keymap("n", "<C-k>", "<C-w>k", opts)
 keymap("n", "<C-l>", "<C-w>l", opts)
 
--- Open lexplore size 30
-keymap("n", "<leader>e", ":Lex 30<cr>", opts)
+-- Nvimtree
+keymap("n", "<leader>e", ":NvimTreeToggle<cr>", opts)
 
 -- Open terminal on the right, use "exit" or "Ctrl-d" to exit terminal
 keymap("n", "<leader>t", ":vs|:te<cr>", opts)

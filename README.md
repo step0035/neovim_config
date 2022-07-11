@@ -31,3 +31,12 @@ git clone git@github.com:step0035/neovim_config.git ~/.config/nvim
 Go to https://github.com/ryanoasis/nerd-fonts to get fonts
 
 Download the fonts and put it into `.local/share/fonts`
+
+### Telescope dependencies
+
+install ripgrep for Telescope live_grep
+
+```
+sudo apt install ripgrep
+```
+>>>>>>> 1626405 ([Telescope] Add telescope plugin)

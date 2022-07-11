@@ -41,6 +41,11 @@ keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 keymap("n", "<Tab>", ":bnext<CR>", opts)
 keymap("n", "<S-Tab>", ":bprevious<CR>", opts)
 
+-- Telescope keymaps
+keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
+-- keymap("n", "<leader>f", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ }))<cr>", opts)
+keymap("n", "<C-t>", "<cmd>Telescope live_grep<cr>", opts)
+
 -- [[Visual]] --
 -- Stay in indent mode
 keymap("v", "<", "<gv", opts)
@@ -67,3 +72,4 @@ keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
 -- Exit insert mode to normal mode in Terminal
 keymap("t", "<Esc>", "<C-\\><C-N><C-w>l", term_opts)
+

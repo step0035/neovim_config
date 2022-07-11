@@ -80,6 +80,9 @@ return packer.startup(function(use)
   }
   use 'JoosepAlviste/nvim-ts-context-commentstring'
 
+  -- Git
+  use "lewis6991/gitsigns.nvim"
+
   -- Vimwiki
   use {
     'vimwiki/vimwiki',
@@ -96,7 +99,6 @@ return packer.startup(function(use)
         ['.markdown'] = 'markdown',
         ['.mdown'] = 'markdown',
       }
-      vimwiki_markdown_link_ext = 1
     end
   }
 

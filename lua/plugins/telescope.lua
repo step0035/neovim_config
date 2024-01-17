@@ -1,13 +1,6 @@
-local status_ok, telescope = pcall(require, "telescope")
-if not status_ok then
-  return
-end
-
-telescope.load_extension('media_files')
-
 local actions = require "telescope.actions"
 
-telescope.setup {
+require("telescope").setup {
   defaults = {
 
     prompt_prefix = " ",
@@ -38,8 +31,8 @@ telescope.setup {
         ["<PageUp>"] = actions.results_scrolling_up,
         ["<PageDown>"] = actions.results_scrolling_down,
 
-        ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
-        ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
+        -- ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
+        -- ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
         ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
         ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
         ["<C-l>"] = actions.complete_tag,
@@ -89,12 +82,6 @@ telescope.setup {
     -- builtin picker
   },
   extensions = {
-    media_files = {
-        -- filetypes whitelist
-        -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
-        filetypes = {"png", "webp", "jpg", "jpeg"},
-        find_cmd = "rg" -- find command (defaults to `fd`)
-      }
     -- Your extension configuration goes here:
     -- extension_name = {
     --   extension_config_key = value,

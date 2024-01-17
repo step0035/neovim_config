@@ -1,9 +1,4 @@
-local status_ok, bufferline = pcall(require, "bufferline")
-if not status_ok then
-  return
-end
-
-bufferline.setup {
+require("bufferline").setup {
   options = {
     numbers = "none", -- | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
     close_command = "Bdelete! %d", -- can be a string | function, see "Mouse actions"
@@ -14,8 +9,8 @@ bufferline.setup {
     -- and so changing this is NOT recommended, this is intended
     -- as an escape hatch for people who cannot bear it for whatever reason
     indicator_icon = "▎",
-    buffer_close_icon = "",
-    -- buffer_close_icon = '',
+    -- buffer_close_icon = "",
+    buffer_close_icon = '',
     modified_icon = "●",
     close_icon = "",
     -- close_icon = '',
@@ -57,7 +52,7 @@ bufferline.setup {
     -- end,
     offsets = { { filetype = "NvimTree", text = "", padding = 1 } },
     show_buffer_icons = true,
-    show_buffer_close_icons = true,
+    show_buffer_close_icons = false,
     show_close_icon = true,
     show_tab_indicators = true,
     persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
@@ -73,7 +68,7 @@ bufferline.setup {
   },
   highlights = {
     fill = {
-      guifg = { attribute = "fg", highlight = "#ff0000" },
+      guifg = { attribute = "fg", highlight = "TabLine" },
       guibg = { attribute = "bg", highlight = "TabLine" },
     },
     background = {

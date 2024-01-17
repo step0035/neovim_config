@@ -38,13 +38,14 @@ keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
 keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
 -- Navigate buffers
-keymap("n", "<Tab>", ":bnext<CR>", opts)
-keymap("n", "<S-Tab>", ":bprevious<CR>", opts)
+keymap("n", "<S-l>", ":bnext<CR>", opts)
+keymap("n", "<S-h>", ":bprevious<CR>", opts)
+keymap("n", "<S-x>", ":bd<CR>", opts)
 
 -- Telescope keymaps
-keymap("n", "<C-f>", "<cmd>Telescope find_files<cr>", opts)
+keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
 -- keymap("n", "<leader>f", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ }))<cr>", opts)
-keymap("n", "<C-s>", "<cmd>Telescope live_grep<cr>", opts)
+keymap("n", "<leader>s", "<cmd>Telescope live_grep<cr>", opts)
 
 -- [[Visual]] --
 -- Stay in indent mode
@@ -57,18 +58,28 @@ keymap("v", "<A-k>", ":m .-2<CR>==", opts)
 keymap("v", "p", '"_dP', opts)
 
 -- [[Visual Block]] --
--- Move text up and down
+-- Move text up and down in visual block mode
 keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
+-- language server
+keymap("n", "gD", "<cmd> lua vim.lsp.buf.declaration()<CR>", opts)
+keymap("n", "gd", "<cmd> lua vim.lsp.buf.definition()<CR>", opts)
+keymap("n", "K", "<cmd> lua vim.lsp.buf.hover()<CR>", opts)
+keymap("n", "gi", "<cmd> lua vim.lsp.buf.implementation()<CR>", opts)
+keymap("n", "<S-k>", "<cmd> lua vim.lsp.buf.signature_help()<CR>", opts)
+keymap("n", "gr", "<cmd> lua vim.lsp.buf.references()<CR>", opts)
+keymap("n", "[d", "<cmd> lua vim.diagnostic.goto_prev({ border = 'rounded' })<CR>", opts)
+keymap("n", "]d", "<cmd> lua vim.diagnostic.goto_next({ border = 'rounded' })<CR>", opts)
+keymap("n", "gl", "<cmd> lua vim.diagnostic.open_float({ border = 'rounded' })<CR>", opts)
+keymap("n", "<leader>q", "<cmd> lua vim.diagnostic.setloclist()<CR>", opts)
+
 -- [[Terminal]] --
 -- Better terminal navigation
--- keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
--- keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
--- keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
--- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
-
--- Exit insert mode to normal mode in Terminal
-keymap("t", "<Esc>", "<C-\\><C-N><C-w>l", term_opts)
+keymap("t", "<Esc>", [[<C-\><C-n>]], opts)
+keymap("t", "<C-h>", [[<C-\><C-N><C-w>h]], term_opts)
+keymap("t", "<C-j>", [[<C-\><C-N><C-w>j]], term_opts)
+keymap("t", "<C-k>", [[<C-\><C-N><C-w>k]], term_opts)
+keymap("t", "<C-l>", [[<C-\><C-N><C-w>l]], term_opts)

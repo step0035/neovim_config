@@ -1,15 +1,11 @@
 # Neovim Config
 
-## Install a later neovim version
+## Install neovim
 
-Go to https://github.com/neovim/neovim/releases
+Clone the neovim repo
 
-Download nvim.appimage 
+Checkout the tag of the desired version, install according to the instruction
 
-```
-chmod u+x nvim.appimage && ./nvim.appimage
-sudo mv nvim.appimage /usr/local/bin/nvim
-```
 ## Alias vi and vim to nvim
 
 Add following lines to .bashrc
@@ -32,10 +28,22 @@ Go to https://github.com/ryanoasis/nerd-fonts to get fonts
 
 Download the fonts and put it into `.local/share/fonts`
 
+Set the terminal to use the font
+
 ## Telescope dependencies
 
 install ripgrep for Telescope live_grep
 
 ```
 sudo apt install ripgrep
+```
+
+## lspconfig dependencies
+
+install node and npm
+
+
+```
+sudo apt install nodejs
+sudo apt install npm
 ```

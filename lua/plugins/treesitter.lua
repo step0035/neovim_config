@@ -1,15 +1,18 @@
-require("nvim-treesitter").setup {
-  ensure_installed = "all",
-
-  auto_install = true,
-
-  indent = {
-    enable = true
-  },
-
-  highlight = {
-    enable = true, -- false will disable the whole extension
-    -- disable = { "c" }, -- list of language that will be disabled
-    additional_vim_regex_highlighting = true,
-  },
+return {
+  {
+    "nvim-treesitter/nvim-treesitter",
+    event = { "BufReadPre", "BufNewFile" },
+    build = ":TSUpdate",
+    config = function()
+      local treesitter = require("nvim-treesitter.configs")
+      treesitter.setup({
+        ensure_installed = "all",
+        indent = { enable = true },
+        highlight = {
+          enable = true,
+          additional_vim_regex_highlighting = true,
+        }
+      })
+    end
+  }
 }

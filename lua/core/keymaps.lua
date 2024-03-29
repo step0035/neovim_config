@@ -63,3 +63,11 @@ keymap("t", "<C-h>", [[<C-\><C-N><C-w>h]], term_opts)
 keymap("t", "<C-j>", [[<C-\><C-N><C-w>j]], term_opts)
 keymap("t", "<C-k>", [[<C-\><C-N><C-w>k]], term_opts)
 keymap("t", "<C-l>", [[<C-\><C-N><C-w>l]], term_opts)
+
+-- Tmux
+keymap("n", "<C-h>", "<Cmd>NvimTmuxNavigateLeft<CR>", opts)
+keymap("n", "<C-j>", "<Cmd>NvimTmuxNavigateDown<CR>", opts)
+keymap("n", "<C-k>", "<Cmd>NvimTmuxNavigateUp<CR>", opts)
+keymap("n", "<C-l>", "<Cmd>NvimTmuxNavigateRight<CR>", opts)
+keymap("n", "<C-\\>", "<Cmd>NvimTmuxNavigateLastActive<CR>", opts)
+keymap("n", "<C-n>", "<Cmd>NvimTmuxNavigateNext<CR>", opts)

@@ -71,3 +71,9 @@ keymap("n", "<C-k>", "<Cmd>NvimTmuxNavigateUp<CR>", opts)
 keymap("n", "<C-l>", "<Cmd>NvimTmuxNavigateRight<CR>", opts)
 keymap("n", "<C-\\>", "<Cmd>NvimTmuxNavigateLastActive<CR>", opts)
 keymap("n", "<C-n>", "<Cmd>NvimTmuxNavigateNext<CR>", opts)
+
+-- don't save to register when deleting
+-- keymap("v", "c", '"_c', opts)
+-- keymap("v", "C", '"_C', opts)
+-- keymap("n", "c", '"_c', opts)
+-- keymap("n", "C", '"_C', opts)

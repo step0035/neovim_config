@@ -72,6 +72,9 @@ keymap("n", "<C-l>", "<Cmd>NvimTmuxNavigateRight<CR>", opts)
 keymap("n", "<C-\\>", "<Cmd>NvimTmuxNavigateLastActive<CR>", opts)
 keymap("n", "<C-n>", "<Cmd>NvimTmuxNavigateNext<CR>", opts)
 
+-- Git-blame (somehow setting keymap in git-blame.lua cause it to enable by default)
+keymap("n", "<leader>g", "<Cmd>GitBlameToggle<CR>", opts)
+
 -- don't save to register when deleting
 -- keymap("v", "c", '"_c', opts)
 -- keymap("v", "C", '"_C', opts)

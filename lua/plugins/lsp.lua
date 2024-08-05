@@ -26,6 +26,10 @@ return {
       handlers = {
         ["textDocument/publishDiagnostics"] = function() end,
       },
+      -- don't grey out inactive code
+      on_attach = function(client, bufnr)
+        client.server_capabilities.semanticTokensProvider = nil
+      end,
     })
 
     lspconfig.lua_ls.setup({

@@ -19,6 +19,7 @@ return {
         "pyright",
         "dockerls",
         "marksman",
+        "verible",
         },
     })
 
@@ -54,6 +55,16 @@ return {
       handlers = {
         ["textDocument/publishDiagnostics"] = function() end,
       },
+    })
+
+    lspconfig.verible.setup({
+      handlers = {
+        ["textDocument/publishDiagnostics"] = function() end,
+      },
+      root_dir = function(fname)
+        return lspconfig.util.find_git_ancestor(fname) or
+        lspconfig.util.path.dirname(fname) -- Fallback to file directory if no git root found
+      end,
     })
 
     -- keymaps

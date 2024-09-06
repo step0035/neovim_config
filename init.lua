@@ -24,3 +24,12 @@ require("lazy").setup({ { import = "plugins" } }, {
     notify = false,
   },
 })
+
+-- let nvim recognize .v files as verilog files
+vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+  pattern = "*.v",
+  callback = function()
+    vim.bo.filetype = "verilog"
+  end,
+})
+

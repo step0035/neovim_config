@@ -1,6 +1,8 @@
 require("core")
+
+-- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
@@ -25,11 +27,6 @@ require("lazy").setup({ { import = "plugins" } }, {
   },
 })
 
--- let nvim recognize .v files as verilog files
-vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
-  pattern = "*.v",
-  callback = function()
-    vim.bo.filetype = "verilog"
-  end,
-})
+-- Treat .v as verilog (nvim's own detection also considers coq and v-lang)
+vim.filetype.add({ extension = { v = "verilog" } })
 

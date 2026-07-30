@@ -2,82 +2,79 @@ return {
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
+    -- Pinned to v1: mason 2.x / mason-lspconfig 2.x are a breaking rewrite
+    -- (setup_handlers removed, ensure_installed semantics changed).
+    { "williamboman/mason.nvim", version = "^1" },
+    { "williamboman/mason-lspconfig.nvim", version = "^1" },
+    "hrsh7th/cmp-nvim-lsp", -- so servers can advertise cmp's capabilities
   },
   config = function()
     local lspconfig = require("lspconfig")
-    local mason = require("mason")
-    local mason_lspconfig = require("mason-lspconfig")
 
-    mason.setup()
-    mason_lspconfig.setup({
-        -- list of servers for mason to install
-        ensure_installed = {
+    -- Tell servers what nvim-cmp can handle (snippets, extra completion item
+    -- properties). Without this they fall back to the minimal defaults.
+    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+    require("mason").setup()
+    require("mason-lspconfig").setup({
+      -- servers for mason to install
+      ensure_installed = {
         "clangd",
         "lua_ls",
         "pyright",
         "dockerls",
         "marksman",
         "verible",
-        },
-    })
-
-    lspconfig.clangd.setup({
-      handlers = {
-        ["textDocument/publishDiagnostics"] = function() end,
-      },
-      -- don't grey out inactive code
-      on_attach = function(client, bufnr)
-        client.server_capabilities.semanticTokensProvider = nil
-      end,
-    })
-
-    lspconfig.lua_ls.setup({
-      handlers = {
-        ["textDocument/publishDiagnostics"] = function() end,
       },
     })
 
-    lspconfig.pyright.setup({
-      handlers = {
-        ["textDocument/publishDiagnostics"] = function() end,
-      },
-    })
+    -- NOTE: this swallows all LSP diagnostics for every server below. It is
+    -- deliberate, but it also means the [d / ]d / gl / <leader>q mappings at the
+    -- bottom of this file have nothing to act on. Drop this to get them back.
+    local function silence_diagnostics() end
 
-    lspconfig.dockerls.setup({
-      handlers = {
-        ["textDocument/publishDiagnostics"] = function() end,
+    -- Per-server overrides; every server gets the diagnostics handler above.
+    local servers = {
+      clangd = {
+        -- don't grey out inactive code
+        on_attach = function(client, _)
+          client.server_capabilities.semanticTokensProvider = nil
+        end,
       },
-    })
-
-    lspconfig.marksman.setup({
-      handlers = {
-        ["textDocument/publishDiagnostics"] = function() end,
+      lua_ls = {},
+      pyright = {},
+      dockerls = {},
+      marksman = {},
+      verible = {
+        root_dir = function(fname)
+          -- fall back to the file's own directory if there's no git root
+          return lspconfig.util.find_git_ancestor(fname) or lspconfig.util.path.dirname(fname)
+        end,
       },
-    })
+    }
 
-    lspconfig.verible.setup({
-      handlers = {
-        ["textDocument/publishDiagnostics"] = function() end,
-      },
-      root_dir = function(fname)
-        return lspconfig.util.find_git_ancestor(fname) or
-        lspconfig.util.path.dirname(fname) -- Fallback to file directory if no git root found
-      end,
-    })
+    for server, config in pairs(servers) do
+      config.handlers = { ["textDocument/publishDiagnostics"] = silence_diagnostics }
+      config.capabilities = capabilities
+      lspconfig[server].setup(config)
+    end
 
-    -- keymaps
-    local keymap = vim.keymap
-    keymap.set("n", "gD", "<cmd> lua vim.lsp.buf.declaration()<CR>", opts)
-    keymap.set("n", "gd", "<cmd> lua vim.lsp.buf.definition()<CR>", opts)
-    keymap.set("n", "K", "<cmd> lua vim.lsp.buf.hover()<CR>", opts)
-    keymap.set("n", "gi", "<cmd> lua vim.lsp.buf.implementation()<CR>", opts)
-    keymap.set("n", "<S-k>", "<cmd> lua vim.lsp.buf.signature_help()<CR>", opts)
-    keymap.set("n", "gr", "<cmd> lua vim.lsp.buf.references()<CR>", opts)
-    keymap.set("n", "[d", "<cmd> lua vim.diagnostic.goto_prev({ border = 'rounded' })<CR>", opts)
-    keymap.set("n", "]d", "<cmd> lua vim.diagnostic.goto_next({ border = 'rounded' })<CR>", opts)
-    keymap.set("n", "gl", "<cmd> lua vim.diagnostic.open_float({ border = 'rounded' })<CR>", opts)
-    keymap.set("n", "<leader>q", "<cmd> lua vim.diagnostic.setloclist()<CR>", opts)
-  end
+    -- ── Keymaps ──────────────────────────────────────────────────────────────
+    local opts = { noremap = true, silent = true }
+    local function map(lhs, rhs, desc)
+      vim.keymap.set("n", lhs, rhs, vim.tbl_extend("force", opts, { desc = desc }))
+    end
+
+    map("gD", vim.lsp.buf.declaration, "LSP: go to declaration")
+    map("gd", vim.lsp.buf.definition, "LSP: go to definition")
+    map("gi", vim.lsp.buf.implementation, "LSP: go to implementation")
+    map("gr", vim.lsp.buf.references, "LSP: references")
+    map("K", vim.lsp.buf.hover, "LSP: hover")
+    map("gs", vim.lsp.buf.signature_help, "LSP: signature help")
+
+    map("[d", function() vim.diagnostic.goto_prev({ border = "rounded" }) end, "Diagnostics: previous")
+    map("]d", function() vim.diagnostic.goto_next({ border = "rounded" }) end, "Diagnostics: next")
+    map("gl", function() vim.diagnostic.open_float({ border = "rounded" }) end, "Diagnostics: show line")
+    map("<leader>q", vim.diagnostic.setloclist, "Diagnostics: to loclist")
+  end,
 }
